@@ -1,0 +1,10 @@
+<h3>本当に退会しますか？</h3>
+
+<p>
+  退会すると、会員登録情報やこれまでの投稿の記録が失われます。</br>
+  退会する場合は「退会する」をクリックしてください。
+</p>
+<span>
+<%= link_to "退会しない", user_path(current_user.id),class:"btn btn-success" %>
+<%= link_to "退会する", withdraw_path, method: :patch, "data-confirm"=>"本当に退会しますか？",class:"btn btn-danger" %>
+</span>

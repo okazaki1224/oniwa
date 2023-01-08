@@ -1,0 +1,75 @@
+<h1><i class="fas fa-fan"></i>会員情報詳細</h1>
+<div class = "container-fluid">
+  <div class = "card m-5">
+    <div class="row no-gutters">
+      <div class="col-md-3">
+        <%= image_tag @user.get_profile_image(150,150),class:"m-2 rounded-circle" %>
+      </div>
+      <div class="col-md-9">
+        <div class="card-body">
+          <strong><h1 class="card-title">
+            <%= link_to user_path(@user.id) do %>
+              <%= @user.nickname %>
+            <%end%>
+          </h1></strong>
+          <p class="card-text">
+            <%= @user.introduction %>
+          </p>
+          <p class="card-text">
+            <%= link_to myfavorites_user_path(@user) do %>
+              <%= @user.nickname %>さんのお気に入り
+            <% end %>
+            <% if @user==current_user %>
+              ｜<%= link_to"プロフィール編集",edit_user_path(@user) %>
+            <%end%>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class = "col-md-3">
+      <%= render 'list',keyword: @keyword, tag_lists: @tag_lists %>
+    </div>
+
+    <div class = "col-md-5 offset-md-1">
+      <i class="fas fa-fan"></i>投稿履歴
+
+
+      <% @posts.each do |post| %>
+        <div class="card">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <%= image_tag @user.get_profile_image(60,60),class:"m-2 rounded-circle" %>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <%= link_to post_path(post.id) do %>
+                    <% if @user==current_user && post.post_status=="unpublish" %>
+                      【非公開】
+                    <% elsif @user==current_user && post.post_status=="draft" %>
+                      【下書き】
+                    <% end %>
+                    <%= post.title %>
+                  <% end %>
+                </h5>
+                <p class="card-text">
+                  <% if post.favorited_by?(current_user) %>
+                    <i class="fas fa-thumbs-up"></i><%= post.favorites.count %>
+                  <% else %>
+                    <i class="far fa-thumbs-up"></i><%= post.favorites.count %>
+                  <% end %>
+                  <span>　</span>
+                  <i class="far fa-comment text-dark"></i><%= post.post_comments.count %>
+                  <span>　</span>
+                  <small class="text-muted">（<%= post.created_at.strftime('%Y/%m/%d') %>）</small>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      <%end%>
+    </div>
+  </div>
+</div>

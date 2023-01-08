@@ -1,0 +1,36 @@
+<h1>投稿編集</h1>
+<%= render 'public/users/list',keyword: @keyword, tag_lists: @tags %></br>
+
+<%= form_with(model:[@tag,@post], local:true) do |f| %>
+  <table>
+    <tr>
+      <td>ジャンル━━━━━━━</td>
+      <td>
+        <%= f.select :genre_id, options_from_collection_for_select(Genre.all, :id, :name) %>
+      </td>
+    </tr>
+    <tr>
+      <td>タイトル━━━━━━━</td>
+      <td><%= f.text_field:title %></td>
+    </tr>
+    <tr>
+      <td>本文</td>
+      <td><%= f.text_area:body %></td>
+    </tr>
+    <tr>
+      <td>画像</td>
+      <td><%= f.file_field:post_images, accept:"image/*", multiple: true %></td>
+    </tr>
+    <tr>
+      <td>タグ</td>
+      <td><%= f.text_field:tag_name, placeholder: "タグはｽﾍﾟｰｽで区切ってね" %></td>
+    </tr>
+    <tr>
+
+      <td><%= f.select:post_status,Post.post_statuses_i18n.invert,disabled: "draft" %></td>
+    </tr>
+    <tr>
+      <td><%= f.submit '投稿' %></td>
+    </tr>
+  </table>
+<% end %>

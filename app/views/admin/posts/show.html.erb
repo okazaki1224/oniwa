@@ -1,0 +1,44 @@
+<h1>投稿詳細</h1>
+<div><%= @post.created_at.strftime('%Y/%m/%d  %H:%M') %></div>
+<div>
+  <% if @post.post_images.attached? %>
+    <% @post.post_images.each do |image| %>
+      <%= image_tag image.variant(resize_to_limit:[150,150]).processed %>
+    <% end %>
+  <% else %>
+    <%= image_tag 'no_image.jpg' %>
+  <% end %>
+</div>
+<div>
+  タイトル:<%= @post.title %>
+</div>
+<div>
+  本文:<%= @post.body %>
+</div>
+<div>～以下コメント欄～</div>
+<table>
+  <tr>
+    <td>コメント件数：<%= @post.post_comments.count %></td>
+  </tr>
+  <% @post.post_comments.each do |post_comment| %>
+  <tr>
+    <td>
+    <%= image_tag post_comment.user.get_profile_image(50,50), class:"mt-3 rounded-circle"; %>
+    <%= post_comment.comment %>
+    <%= post_comment.user.nickname %>
+    <%= post_comment.created_at.strftime('%Y/%m/%d') %>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <%= form_with model: [@post,post_comment], url: admin_post_post_comment_path(@post.id,post_comment.id), method: :patch, local: true do |f| %>
+        <%= f.radio_button:is_deleted, false %>
+        <%= f.label:is_deleted, "OK", {value:false, style:"display:inline-box;"} %>
+        <%= f.radio_button:is_deleted, true %>
+        <%= f.label:is_deleted, "NG", {value:true, style:"display:inline-box;"} %>
+        <%= f.submit "更新" %>
+      <% end %>
+    </td>
+  </tr>
+  <% end %>
+</table>

@@ -1,0 +1,54 @@
+<h1><i class="fas fa-fan"></i>プロフィール編集</h1>
+<div class = "container-fluid">
+  <div class = "row">
+    <div class = "col-md-3">
+      <%= render 'list',keyword: @keyword, tag_lists: @tag_lists %>
+    </div>
+
+    <div class = "col-md-5 offset-md-1">
+      <%= form_with model: @user, url: user_path, method: :patch do |f| %>
+      <table>
+        <tr>
+          <td><%= f.label :姓（LastName） %></td>
+          <td><%= f.text_field :last_name,autofocus: true %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :名（FirstName） %></td>
+          <td><%= f.text_field :first_name %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :ニックネーム（Nickname） %></td>
+          <td><%= f.text_field :nickname,placeholder:"３～20文字" %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :自己紹介（Introduction） %></td>
+          <td><%= f.text_area :introduction,size: "50x3",placeholder:"140文字以内" %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :プロフィール画像 %></td>
+          <td><%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :メールアドレス（email） %></td>
+          <td><%= f.email_field :email, autofocus: true, autocomplete: "email",size: 50 %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :パスワード（Password） %></td>
+          <td><%= f.password_field :password, autocomplete: "new-password" ,placeholder:"６文字以上" %></td>
+        </tr>
+        <tr>
+          <td><%= f.label :パスワード（確認用） %></td>
+          <td><%= f.password_field :password_confirmation, autocomplete: "new-password" %></td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            <%= f.submit "更新する",class:"btn btn-success" %>
+            <%= link_to "退会する", unsubscribe_path,class:"btn btn-outline-danger" %>
+          </td>
+        </tr>
+      </table>
+      <%end%>
+    </div>
+  </div>
+</div>

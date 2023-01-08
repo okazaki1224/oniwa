@@ -1,0 +1,27 @@
+<h1>会員一覧</h1>
+<div class = "container-fluid">
+  <div class = "row">
+    <div class = "col-md-3">
+      <%= render 'list',keyword: @keyword, tag_lists: @tag_lists %>
+    </div>
+    <div class = "col-md-7 offset-md-1">
+      <% @users.each do |user| %>
+      <table>
+        <tr>
+          <td><%= image_tag user.get_profile_image(100,100),class:"ml-2 rounded-circle" %></td>
+          <td>
+            <%= link_to user_path(user.id) do %>
+              <h4><strong><%= user.nickname %></strong></h4>
+            <%end%>
+          </td>
+          <td>　</td>
+          <td><%= user.introduction %></td>
+        </tr>
+      </table>
+      <% end %>
+    </div>
+    <div class = "col-md-1">
+
+    </div>
+  </div>
+</div>

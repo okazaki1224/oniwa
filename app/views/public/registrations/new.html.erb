@@ -1,29 +1,40 @@
-<h2>Sign up</h2>
+<h2><i class="fas fa-fan"></i>新規会員登録</h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "public/shared/error_messages", resource: resource %>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
+  <table>
+    <tr>
+      <td><%= f.label :姓（LastName） %></td>
+      <td><%= f.text_field :last_name,autofocus: true %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :名（FirstName） %></td>
+      <td><%= f.text_field :first_name %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :ニックネーム %></td>
+      <td><%= f.text_field :nickname %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :メールアドレス %></td>
+      <td><%= f.email_field :email, autofocus: true, autocomplete: "email" %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :パスワード（６文字以上） %></td>
+      <td><%= f.password_field :password, autocomplete: "new-password" %></td>
+    </tr>
+    <tr>
+      <td><%= f.label :パスワード（確認用） %></td>
+      <td><%= f.password_field :password_confirmation, autocomplete: "new-password" %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <td><%= f.submit "新規登録",class:"btn btn-success" %></td>
+    </tr>
+  </table>
 <% end %>
+※プロフィール画像は登録後に変更できます
 
-<%= render "publics/shared/links" %>
+<%#= render "public/shared/links" %>
+<h4>既に登録済みの方</h4>
+<%= link_to "こちら",new_session_path(resource_name) %>からログイン

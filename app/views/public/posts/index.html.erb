@@ -1,0 +1,65 @@
+<h1><i class="fas fa-fan"></i>投稿一覧(全<%= @posts.total_count %>件)</h1>
+<div class = "container-fluid">
+  <div class = "row">
+    <div class = "col-md-3">
+      <%= render 'public/users/list',keyword: @keyword, tag_lists: @tags %>
+    </div>
+
+    <div class = "col-md-5 offset-md-1">
+      <% @posts.each do |post| %>
+        <div class="card">
+          <div class="row no-gutters">
+            <div class="col-md-4">
+              <%= image_tag post.user.get_profile_image(60,60), class:"m-2 rounded-circle";  %>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">
+                  <%= link_to post_path(post.id) do %>
+                    <%= post.title %>
+                  <% end %>
+                </h5>
+                <p class="card-text">
+                  <i class="fas fa-user"></i><%= post.user.nickname %>
+                </p>
+                <p class="card-text">
+                  <%= link_to post_path(post.id) do %>
+                    <i class="far fa-comment text-dark"></i><%= post.post_comments.count %>
+                  <% end %>
+                  <span>　</span>
+                  <% if post.favorited_by?(current_user) %>
+                    <%= link_to post_favorites_path(post), method: :delete do %>
+                      <i class="fas fa-thumbs-up text-dark"></i><%= post.favorites.count %>
+                    <% end %>
+                  <% else %>
+                    <%= link_to post_favorites_path(post), method: :post do %>
+                      <i class="far fa-thumbs-up text-dark"></i><%= post.favorites.count %>
+                    <% end %>
+                  <% end %>
+                  <span>　</span>
+                  <small class="text-muted"><%= post.created_at.strftime('%Y/%m/%d  %H:%M') %></small>
+                </p>
+                <%# post.tags.each do |tag| %>
+                  <%#=link_to "##{tag.tag_name}",posts_path(tag_id: tag.id) %>
+                <%# end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-md-2 offset-md-1">
+      <%# if @posts.total_count!=0 %>
+        <% @genres.each do |genre| %>
+          <table>
+            <tr>
+              <td><%= link_to genre.name, posts_path(genre_id: genre.id),class:"btn btn-success" %></td>
+            </tr>
+            <tr>　</tr>
+          </table>
+        <% end %>
+      <%# end %>
+    </div>
+  </div>
+</div>
+<%= paginate @posts %>

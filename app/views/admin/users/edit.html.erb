@@ -1,0 +1,56 @@
+<h2><i class="fas fa-fan"></i>会員情報編集<悪用厳禁></h2>
+
+<%= form_with model: @user, url: admin_user_path, method: :patch do |f| %>
+
+  <div class="field">
+    <label for="inputName">姓</label></br>
+    <%= f.text_field :last_name, id:"inputName", placeholder:"姓"%></br>
+  </div>
+
+  <div class="field">
+    <label for="inputName">名</label></br>
+    <%= f.text_field :first_name, id:"inputName", placeholder:"名"%></br>
+  </div>
+
+  <div class="field">
+    <label for="inputName">ニックネーム</label></br>
+    <%= f.text_field :nickname, id:"inputName", placeholder:"ニックネーム" %></br>
+  </div>
+
+  <div class="field">
+    <label for="inputName">自己紹介</label></br>
+    <%= f.text_field :introduction, id:"inputName", placeholder:"自己紹介"%></br>
+  </div>
+
+  <label for="inputImage">プロフィール画像</label></br>
+  <%= f.file_field :profile_image, placeholder: "プロフィール画像", accept: "image/*" %>  </br>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autocomplete: "email" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div>
+    <%= f.label:is_deleted, "有効", {value:false, style:"display:inline-box;"} %>
+    <%= f.radio_button:is_deleted, false %>
+    <%= f.label:is_deleted, "退会", {value:true, style:"display:inline-box;"} %>
+    <%= f.radio_button:is_deleted, true %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "更新する" %>
+  </div>
+<% end %>

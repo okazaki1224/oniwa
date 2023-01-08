@@ -1,26 +1,37 @@
-<h2>Log in</h2>
-
+<h2><i class="fas fa-fan"></i>会員ログイン</h2>
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "current-password" %>
-  </div>
-
+<table>
+  <tr>
+    <td><%= f.label :メールアドレス %></td>
+    <td><%= f.email_field :email, autofocus: true, autocomplete: "email" %></td>
+  </tr>
+  <tr>
+    <td><%= f.label :パスワード（６文字以上） %></td>
+    <td><%= f.password_field :password, autocomplete: "new-password" %></td>
+  </tr>
   <% if devise_mapping.rememberable? %>
-    <div class="field">
+  <tr>
+    <td></td>
+    <td>
       <%= f.check_box :remember_me %>
       <%= f.label :remember_me %>
-    </div>
+    </td>
+  </tr>
   <% end %>
-
-  <div class="actions">
-    <%= f.submit "Log in" %>
-  </div>
+  <tr>
+    <td></td>
+    <td>
+      <%= f.submit "ログイン", class:"btn btn-success" %>
+    </td>
+  </tr>
+  <tr>
+    <td>　</td>
+  </tr>
+</table>
 <% end %>
 
-<%= render "public/shared/links" %>
+<h4><i class="fas fa-fan"></i>会員登録がお済みでない方</h4>
+<%= link_to 'ゲストログイン', guests_guest_sign_in_path, method: :post,class: "btn btn-warning" %>
+または
+<%= link_to "こちら",new_registration_path(resource_name) %>から新規登録を行ってください。<br>
+ゲストでログインすると一部の機能が制限されます。

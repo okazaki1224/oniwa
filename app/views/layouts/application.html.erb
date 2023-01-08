@@ -1,16 +1,98 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Oniwa</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%#= favicon_link_tag('favicon.ico') %>
+    <title>Gardening</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/css/lightbox.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.7.1/js/lightbox.min.js" type="text/javascript"></script>
+    <%#= favicon_link_tag %>
   </head>
 
   <body>
+    <header class="shadow-sm">
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ml-auto">
+            <% if user_signed_in? %>
+              ようこそ、<%= current_user.nickname %>さん！
+              <li class="nav-item">
+                <%= link_to user_path(current_user.id),class: 'nav-link text-black' do %>
+                  <i class="fas fa-user"></i>マイページ
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to posts_path,class: 'nav-link text-black' do %>
+                  <i class="fas fa-book-open"></i>投稿一覧
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to users_path,class: 'nav-link text-black' do %>
+                  <i class="fas fa-user-friends"></i>会員一覧
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to new_inquiry_path,class: 'nav-link text-black' do %>
+                  <i class="fas fa-envelope"></i>お問い合わせ
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to new_post_path,class: 'nav-link text-black' do %>
+                  <i class="fas fa-pen"></i>新規投稿
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to destroy_user_session_path, method: :delete,class: 'nav-link text-black' do %>
+                  <i class="fas fa-sign-out-alt"></i>ログアウト
+                <% end %>
+              </li>
+            <% elsif admin_signed_in? %>
+              管理者画面
+              <li class="nav-item">
+                <%= link_to "投稿一覧", admin_root_path,class: 'nav-link text-black' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "会員一覧", admin_users_path,class: 'nav-link text-black' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "ジャンル一覧", admin_genres_path,class: 'nav-link text-black' %>
+              </li>
+              <li class="nav-item">
+                <%= link_to "ログアウト", destroy_admin_session_path, method: :delete,class: 'nav-link text-black' %>
+              </li>
+            <% else %>
+              <li class="nav-item">
+                <%= link_to new_user_session_path,class: 'nav-link text-black' do %>
+                  <i class="fas fa-sign-in-alt"></i>ログイン
+                <% end %>
+              </li>
+              <li class="nav-item">
+                <%= link_to guests_guest_sign_in_path, method: :post,class: 'nav-link text-black' do %>
+                  <i class="fas fa-user-secret"></i>ゲストログイン
+                <% end %>
+              </li>
+            <% end %>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <% flash.each do |message_type, message| %>
+      <%= message %>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

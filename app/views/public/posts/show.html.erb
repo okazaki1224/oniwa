@@ -1,0 +1,111 @@
+<h1><i class="fas fa-fan"></i><%= @post.user.nickname %>さんの投稿詳細</h1>
+<div class = "container-fluid">
+  <div class = "row no-gutters">
+    <div class = "col-md-3">
+      <%= render 'public/users/list',keyword: @keyword, tag_lists: @tags %></br>
+    </div>
+    <div class = "col-md-5 offset-md-1">
+      <% if @post.post_status != "publish" && @post.user != current_user %>
+       この記事は公開されていません。
+      <% else %>
+        <div class="card w-100 mx-auto mt-4 shadow-lg">
+          <div class="row justify-content-around">
+              <% if @post.post_images.attached? %>
+                <% @post.post_images.each do |image| %>
+                  <%= link_to image, "data-lightbox": image do %>
+                  <%= image_tag image.variant(resize_to_limit:[88,88]).processed, class:"card-img-top"; %>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <%= image_tag 'no_image.jpg', class:"card-img-top"; %>
+              <% end %>
+          </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-4">
+                <%= image_tag @post.user.get_profile_image(75,75), class:"rounded-circle";  %>
+              </div>
+              <div class="col-8">
+                <h4 class="card-title"><%= @post.title %></h4>
+                <p class="card-text"><%= @post.body %></P>
+                <p class="card-text">
+                  <span>
+                    <% if user_signed_in? && @post.favorited_by?(current_user) %>
+                      <%= link_to post_favorites_path(@post), method: :delete do %>
+                        <i class="fas fa-thumbs-up text-dark"></i><%= @post.favorites.count %>
+                      <% end %>
+                    <% else %>
+                      <%= link_to post_favorites_path(@post), method: :post do %>
+                        <i class="far fa-thumbs-up text-dark"></i><%= @post.favorites.count %>
+                      <% end %>
+                    <% end %>
+                  </span>
+                  <span>　</span>
+                  <span>
+                    <%= link_to post_path(@post.id) do %>
+                      <i class="far fa-comment text-dark"></i><%= @post.post_comments.count %>
+                    <% end %>
+                  </span>
+                  <span>　</span>
+                  <span>
+                    <small class="text-muted">
+                      <%= @post.created_at.strftime('%Y/%m/%d  %H:%M') %>
+                    </small>
+                  </span>
+                </p>
+              </div>
+            </div>
+            <div>
+              <% @post.tags.each do |tag| %>
+                <%=link_to "##{tag.tag_name}",posts_path(tag_id: tag.id) %>
+              <%end%>
+            </div>
+            <div>
+              <% if @post.user==current_user# && @post.post_status != "publish" %>
+                <%= link_to edit_post_path(@post.id) do %>
+                  <i class="fas fa-edit"></i>編集する
+                <%end%>
+              <% end %>
+            </div>
+          </div>
+          <div>
+            <%= form_with(model: [@post, @post_comment]) do |f| %>
+              <%= f.text_area :comment,  placeholder: "コメントはこちら", style: "width:100%" %>
+              <%= f.submit "送信する", style: "width:100%",class:"btn btn-primary" %>
+            <% end %>
+          </div>
+        </div>
+        <div>
+          <% @post.post_comments.each do |post_comment| %>
+            <div class="card">
+              <div class="row no-gutters">
+                <div class="col-md-4">
+                  <%= image_tag post_comment.user.get_profile_image(75,75), class:"m-3 rounded-circle"; %>
+                </div>
+                <div class="col-md-8">
+                  <div class="card-body">
+                    <h5 class="card-title">
+                      <%= post_comment.user.nickname %>
+                    </h5>
+                    <p class="card-text">
+                      <% if post_comment.is_deleted==false %>
+                        <%= post_comment.comment %>
+                      <% else %>
+                        ≪コメントは削除されました≫
+                      <% end %>
+                    </p>
+                    <p class="card-text">
+                      <small class="text-muted"><%= @post.created_at.strftime('%Y/%m/%d  %H:%M') %></small>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class = "col-md-2 offset-md-1"></div>
+</div>
