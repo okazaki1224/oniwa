@@ -1,0 +1,10 @@
+<%= form_with url: search_posts_path, method: :get, local: true do |f| %>
+  <%= f.text_field :keyword, value: keyword,size: 22 %>
+  <%= f.submit "検索" %>
+<% end %>
+
+タグ：<% tag_lists.each do |tag| %>
+  <%= link_to posts_path(tag_id: tag.id),class:"btn btn-outline-primary" do %>
+    #<%= tag.tag_name %>
+  <% end %>
+<% end %>
