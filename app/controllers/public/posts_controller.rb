@@ -11,7 +11,7 @@ class Public::PostsController < ApplicationController
   def create
     #@posts=Post.all
     @post=Post.new(post_params)
-    #split(nil)だと会員が全角ｽﾍﾟｰｽでﾀｸﾞを分割したとき、意図しないタグが生成され
+    #split(nil)だと会員が全角ｽﾍﾟｰｽでﾀｸﾞを分割したとき、意図しないタグが生成される
     tag_list=params[:post][:tag_name].split(/[[:blank:]]/)
     @post.user_id=current_user.id
     if @post.save

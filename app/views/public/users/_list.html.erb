@@ -3,7 +3,7 @@
   <%= f.submit "検索" %>
 <% end %>
 
-タグ：<% tag_lists.each do |tag| %>
+タグ：<% @tags.each do |tag| %>
   <%= link_to posts_path(tag_id: tag.id),class:"btn btn-outline-primary" do %>
     #<%= tag.tag_name %>
   <% end %>

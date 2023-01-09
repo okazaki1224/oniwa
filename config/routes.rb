@@ -22,7 +22,6 @@ sessions: "admin/sessions"
     end
 
     resources:users, only:[:index, :show, :edit, :update]
-
   end
 
   patch 'users/withdraw' => 'public/users#withdraw', as: "withdraw"
