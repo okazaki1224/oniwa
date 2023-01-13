@@ -17,7 +17,7 @@ class Admin::PostsController < ApplicationController
 
   def show
     @post=Post.find(params[:id])
-    @post_comment=PostComment.find(params[:id])
+    #@post_comment=PostComment.find(params[:id])#0114ここに書くことではない、内容も誤り
   end
 
   def destroy
